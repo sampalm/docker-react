@@ -16,7 +16,7 @@ after_success:
   # login in to the docker cli
   - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-stdin
   ## Push images to docker hub
-  - docker push -t sampalm/dr-client
-  - docker push -t sampalm/dr-nginx
-  - docker push -t sampalm/dr-server
-  - docker push -t sampalm/dr-worker
+  - docker push sampalm/dr-client
+  - docker push sampalm/dr-nginx
+  - docker push sampalm/dr-server
+  - docker push sampalm/dr-worker
