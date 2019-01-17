@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+# build only the client image
+before_install:
+  - docker build -t sampalm/docker-react -f ./client/Dockerfile.dev ./client
+# make a simple test of the client image
+script:
+  - docker run sampalm/docker-react npm test -- --coverage
+# build multi-container images
+after_success:
+  - docker build -t sampalm/dr-client ./client
+  - docker build -t sampalm/dr-nginx ./nginx
+  - docker build -t sampalm/dr-server ./server
+  - docker build -t sampalm/dr-worker ./worker
+  # login in to the docker cli
+  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-stdin
+  ## Push images to docker hub
+  - docker push -t sampalm/dr-client
+  - docker push -t sampalm/dr-nginx
+  - docker push -t sampalm/dr-server
+  - docker push -t sampalm/dr-worker
