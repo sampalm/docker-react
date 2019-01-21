@@ -20,3 +20,16 @@ after_success:
   - docker push sampalm/dr-nginx
   - docker push sampalm/dr-server
   - docker push sampalm/dr-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-1
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-us-east-1-487676984512
+  bucket_path: multi-docker
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
